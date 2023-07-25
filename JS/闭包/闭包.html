@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    闭包的几种常见形式：
+
+    1. 核心：函数的执行，导致函数被定义；
+            （函数的嵌套，函数的执行，导致函数被定义,这时候可以拿到父函数中的AO）
+
+    2. 闭包和函数的定义有关；(函数在定义的时候决定了当前的作用域环境,也就是上下文对象)；
+
+    3. this 和函数的执行方式有关；
+    <script>
+        // fn()是函数执行，不算闭包
+        // function foo(fn) {
+        //     var n = 0;
+        //     fn();
+        // }
+
+        // function test(){
+        //     console.log(n);
+        // }
+
+        // foo(test);
+
+        // 闭包形式1：函数的返回值是函数
+        function foo1(fn) {
+            var n = 0;
+            // fn();
+            return function () {
+                console.log(n);
+            }
+        }
+
+        // function test(){
+        //     console.log(n);
+        // }
+
+        foo1()();
+
+        // 2. 返回的变量是函数
+        function foo2() {
+            var n = function () {
+
+            }
+
+            return n
+        }
+
+        foo2()();
+
+        // 3. 全局变量定义的闭包；
+        // 全局变量接收函数(foo3执行时才会被赋值)
+
+        var outer;
+        function foo3() {
+            var a = 10;
+            outer = function () {
+                console.log(a);
+            }
+        }
+
+        foo3();
+        outer();
+
+        // 4. 函数的参数的方式；
+        // n作为参数传到全局变量当中的函数内部 （n被定义时，拿到全局父作用域到中的b）
+
+        var inner = function (fn) {
+            console.log(fn());
+        };
+
+        function foo4() {
+            var b = "local";
+            var n = function () {
+                return b;
+            }
+            inner(n);
+        }
+
+        foo4();
+
+        // 5. 循环赋值问题；(也是闭包) 
+
+        function foo5() {
+            var arr = [];
+            for (var i = 0; i < 10; i++) {
+                arr[i] = function () {
+                    console.log(i);
+                }
+            }
+
+            return arr;
+        }
+
+        var bar = foo5();
+
+        // for(var j = 0; j < 10; j++){
+        //     bar[j]();
+        // } // 输出10个10
+
+        // bar[0]();
+
+        // 5. 解决: 通过嵌套一层闭包的方式来解决
+
+        function foo6() {
+            var arr = [];
+            for (var i = 0; i < 10; i++) {
+                arr[i] = (function (j) {
+                    return function(){
+                        console.log(j);
+                    }
+                })(i)
+            }
+
+            return arr;
+        }
+
+        var bar = foo6();
+
+        for (var j = 0; j < 10; j++) {
+            bar[j]();
+        } 
+
+
+        // 6. 迭代器：累加器；
+
+        var add = (function(){
+            var count = 0;
+            return function(){
+                return ++count; 
+            }
+        })();
+
+        console.log(add());
+        console.log(add());
+        console.log(add());
+
+
+
+
+    </script>
+
+</body>
+
+</html>
