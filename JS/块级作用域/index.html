@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let
+
+        // 1. 在同一作用域下不可重复声明；
+        // 2. let 不能提升, 暂时性死区(TDZ) (执行的时候才会被初始化)
+        // 3. 在当前块有效
+
+        // function test(a){
+        //     // var a = 1;
+        //     {
+        //         let a = 2
+        //     }
+        // }
+
+        // test();
+
+        // 例子1：----------------
+        // function test(){
+        //     var foo = 33;
+        //     if(foo){
+        //         console.log(foo); // 33
+        //     }
+        // }
+
+        // function test(){
+        //     var foo = 33;
+        //     if(foo){
+        //         // console.log(foo);// 暂时性死区 // Uncaught ReferenceError: Cannot access 'foo' before initialization
+        //         // // 虽然没有初始化foo的值 但是依然在当前块有效（有值，未经初始化的值）
+        //         // let foo;
+        //         // 赋值语句在 之前 ；也就是在初始化之前访问了foo的值 也属于暂时性死区
+        //         let foo = foo + 55; // ReferenceError
+        //     }
+        // }
+
+        // test();
+
+        // 例子2：-----------------
+        // for循环中的圆括号也属于块级语句，括号相当于花括号的父级作用域
+
+        // function go(n){
+        //     // n here is defined!
+        //     console.log(n); // Object {a:[1,2,3]}
+
+        //     for(let n of n.a){ // TDZ
+        //         // ReferenceError
+        //         console.log(n);
+        //     }
+        // }
+
+        // go({a: [1,2,3]});
+
+        // 3. 在当前块有效-----------------------------------
+        // {
+        //     let a = 2;
+        // }
+        // console.log(a); //a is not defined
+
+        // for(; false;){
+        //     let a = a;
+        // }
+        // console.log(a); //a is not defined
+
+
+        // a 能穿透 效果相当于事件冒泡的效果 作用域是逐级嵌套的方式 var a = 10;会向外冒泡
+        {
+            let a = 1;
+            // var a = 10; // 冒泡到这儿 var a和 let a 重复定义了
+            {
+                var a = 10;  // Identifier 'a' has already been declared
+            }
+            console.log(a);
+        }
+
+        console.log(a);
+
+    </script>
+</body>
+</html>
