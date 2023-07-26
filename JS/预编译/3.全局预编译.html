@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    - 全局预编译
+    1. 创建一个Global Object对象 GO
+    2. 变量[声明]提升,值赋予undefined
+    3. 将[函数声明提升] 值 赋予函数体
+
+    <script>
+        /*
+          GO:{
+            a:undefined
+          }
+
+          GO:{
+            a:function a () {console.log(a)}
+          }
+
+          GO:{
+            a:10
+          }
+
+        */
+
+        console.log(a) //  function a () {console.log(a)}
+        var a = 10
+        function a() {
+            console.log(a) // 10 错
+        }
+        a() // 10不能执行，报错
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    **预编译过程:**
+
+    创建一个执行期上下文（就是创建了一个对象，后期要用的变量都找这个对象）
+
+    1. 创建了与变量声明(var)作为对象的属性名,值为undefined
+    3. 将实参值与形参值统一
+    4. 在函数一个对象,执行期上下文对象
+    2. 把形参体里面找函数声明,值赋予函数体(函数的名字作为第一步创建的名字,把值赋上来)
+
+    **预编译分类:**
+
+    全局预编译：代码执行的前一刻
+    函数预编译：函数执行的前一刻(每次执行前都要重新进行预编译)
+
+    相关概念：
+    1. 作用域
+        函数的属性[[scope]]，存储了执行期上下文的集合，也就是作用域。(意思是定义函数和变量生效区域)
+    2. 执行器上下文 AO
+        当函数执行时，会创建一个称为执行器上下文的内部对象(函数执行环境)。当函数执行完毕，执行期上下文被摧毁
+    3. 静态作用域
+        在函数定义的时候，这个函数的作用域链除了执行前所生成的AO，其他的项都已确定，最后一个AO在执行前生成
+    
+
+    <script>
+        console.log(b) // function b () {}
+        console.log(a) // undefined
+        function b() { }
+        var a = 10
+        console.log(a) // 10
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    - 函数预编译
+    1. 创建一个Activation Oject对象 AO
+    2. 找形参和变量声明，作为AO的属性名，值赋予undefined
+    3. 将形参与实参统一（实参值赋予形参）
+    4. 找函数声明, 值赋予函数体
+    <script>
+        /*
+      AO:{
+        a: undefined,
+        b: undefined
+      }
+      AO:{
+        a: 1, // 将实参值与形参值统一
+        b: undefined
+      }
+      AO:{
+        a: function a () {}, // 
+        b: undefined
+      }
+      AO:{
+          a:1,
+          b:undefined
+      }
+      AO:{
+          a:1,
+          b:function () {}
+      }
+    */
+        function test(a) {
+            window.console.log(a) // function a () {}
+            var a = 1
+            window.console.log(a) // 1
+            function a() { }
+            window.console.log(b) // undefined
+            var b = function () { } // 这不叫函数声明 这叫函数赋值
+            window.console.log(b) // function () {}
+        }
+        test(1)
+    </script>
+</body>
+
+</html>
