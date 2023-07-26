@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    1. 默认绑定规则：console.log(this === window); // true
+    2. 隐式绑定规则：谁调用就指向谁;(隐式绑定失败：隐式丢失，参数赋值)
+    3. 显示绑定：call, apply, bind
+    4. new 绑定；
+
+    优先级：
+    4 > 3 > 2 > 1
+
+    <script>
+        // function foo(){
+        //     console.log(this.a);
+        // }
+
+        // var obj1 = {
+        //     a: 2,
+        //     foo: foo
+        // }
+
+        // var obj2 = {
+        //     a: 3,
+        //     foo: foo
+        // }
+
+        // obj1.foo();
+        // obj2.foo();
+
+        // obj1.foo.call(obj2);
+        // obj2.foo.call(obj1);
+
+        function foo(){
+            this.a = b;
+        }
+
+        var obj1 = {};
+        var bar = foo.bind(obj1);
+        bar(2);
+
+        console.log(obj1.a); // 2
+        var baz = new bar(3);
+        console.log(obj1.a); // 2
+
+        console.log(baz.a); // 3
+    </script>
+
+</body>
+</html>

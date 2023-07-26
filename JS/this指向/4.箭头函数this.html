@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    箭头函数不存在this，所有绑定规则全部不适用，
+    箭头函数的this，取决于父环境中的this指向。
+    <script>
+        var a = 0;
+        function foo(){
+            // 内层函数改变this指向 方式1
+            var that = this;
+            console.log(this);
+            // function test1(){
+            //     console.log(that);
+            // }
+
+            // 内层函数改变this指向 方式2 箭头函数
+            // 箭头函数内部没有this指向，是拿着父级作用域当中的this
+            var test2 = () => {
+                console.log(this);
+            }
+
+            // 内层函数改变this指向 方式2
+            // test1.call(this);
+
+            return test2;
+        }
+
+        // var obj = {
+        //     a: 1,
+        //     foo: foo
+        // }
+
+        // obj.foo();
+
+        var obj1 = {
+            a: 1,
+            foo: foo
+        }
+
+        var obj2 = {
+            a: 2,
+            foo: foo
+        }
+
+        var obj3 = {
+            a: 3,
+            foo: () => {
+                console.log(this);
+            }
+        }
+
+        // obj1.foo()(); // obj1  默认绑定规则 （独立调用对箭头函数无效）
+        var bar = foo().call(obj2); // window 显示绑定 无效；
+        obj3.foo(); // window 隐式绑定规则无效
+        // 箭头函数不允许作为构造函数使用
+
+    </script>
+</body>
+</html>

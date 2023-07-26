@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    1. 默认绑定规则：console.log(this === window); // true
+    2. 隐式绑定规则：谁调用就指向谁;(隐式绑定失败：隐式丢失，参数赋值)
+    3. 显示绑定：call, apply, bind
+    <script>
+
+        //1. 默认绑定规则：console.log(this === window); // true
+
+        console.log(this === window); // true
+
+        // console.log({} === {}); // false
+
+        // 函数的独立调用
+        function test(){
+            console.log(this === window); // true
+        }
+ 
+        test(); // window.test(); 
+
+        // ------------------
+        //2. 隐式绑定规则：谁调用就指向谁
+
+        var a = 0;
+        var obj = {
+            a: 2,
+            foo: function(){
+                // 只有函数执行 this指向才有意义
+                // 每一个函数执行 都会有一个自身的this指向
+                console.log(this); // obj
+
+                function test(){
+                    console.log(this); // window
+                }
+                test();
+
+                (function(){
+                    console.log(this);
+                })();  // 立即执行函数内部的this指向window
+
+                // 闭包：当函数执行的时候，导致函数被定义，并抛出（产生作用域链，不释放）
+
+                function test1(){
+                    console.log(this); // window (独立调用)
+                }
+                return test1;
+
+            }
+        }
+
+        // obj.foo(); 
+        obj.foo()();
+
+        // ---------------------------------------
+        var b = 0;
+        function foo2(){
+            console.log(this);
+        }
+
+        var obj2 = {
+            b: 2,
+            foo2:foo2
+        }
+
+        // obj2.foo2(); // obj2
+
+        // 隐式丢失；（变量赋值） 
+        var bar = obj2.foo2;  // 当前的bar持有foo2的引用
+        bar(); // window 独立调用
+
+
+        // 参数赋值的情况
+        var c = 0;
+        function foo3(){
+            console.log(this); // window 独立调用执行
+        }
+
+        function bar2(fn){
+            fn();
+        }
+
+        var obj3 = {
+            a:2,
+            foo3:foo3
+        }
+
+        // 预编译的过程中，实参被赋值为形参；
+        bar2(obj3.foo3)
+
+    </script>
+</body>
+</html>
